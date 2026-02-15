@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AniHelp - Livestock Health Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0f1a1f;
+            --muted: #54606b;
+            --accent: #ff7a45;
+            --accent-dark: #e16433;
+            --glow: #f9c27b;
+            --surface: #f9f6f1;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Space Grotesk", sans-serif;
+            color: var(--ink);
+            background: radial-gradient(circle at top left, #fff2e3 0%, #f8f2e8 35%, #e7f3ef 70%, #f7fbff 100%);
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 5rem 0 2.5rem;
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 360px;
+            height: 360px;
+            border-radius: 50%;
+            opacity: 0.22;
+            z-index: 0;
+        }
+
+        .hero::before {
+            background: #ffd1b3;
+            top: -120px;
+            right: -90px;
+        }
+
+        .hero::after {
+            background: #bfe5d3;
+            bottom: -150px;
+            left: -120px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            background: #111e25;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 0.4rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .badge-soft {
+            background: rgba(17, 30, 37, 0.08);
+            color: #1c2a32;
+            border: 1px solid rgba(17, 30, 37, 0.12);
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: "Fraunces", serif;
+            font-weight: 700;
+            font-size: clamp(2.4rem, 4vw, 3.4rem);
+            margin: 1.4rem 0 1rem;
+        }
+
+        .lead {
+            font-size: 1.1rem;
+            color: var(--muted);
+            max-width: 620px;
+        }
+
+        .cta-card {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 20px 50px rgba(20, 22, 24, 0.1);
+            backdrop-filter: blur(6px);
+        }
+
+        .cta-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-top: 1.8rem;
+        }
+
+        .btn-cta {
+            border-radius: 999px;
+            padding: 0.8rem 1.2rem;
+            font-weight: 600;
+            border: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px rgba(15, 26, 31, 0.12);
+        }
+
+        .btn-primary-cta {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-primary-cta:hover {
+            background: var(--accent-dark);
+        }
+
+        .btn-outline-cta {
+            background: transparent;
+            border: 2px solid #1c2a32;
+            color: #1c2a32;
+        }
+
+        .btn-ghost-cta {
+            background: #1c2a32;
+            color: #fff;
+        }
+
+        .demo-note {
+            margin-top: 1.4rem;
+            padding: 0.9rem 1rem;
+            border-radius: 14px;
+            background: var(--surface);
+            border: 1px solid #efe6d9;
+            font-size: 0.95rem;
+            color: #3f4a54;
+        }
+
+        .hero-list {
+            margin: 1.4rem 0 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .hero-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.98rem;
+            color: var(--muted);
+        }
+
+        .hero-list span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: inline-block;
+        }
+
+        .achievement {
+            margin-top: 2.5rem;
+            background: linear-gradient(120deg, rgba(255, 209, 179, 0.5), rgba(191, 229, 211, 0.5));
+            border: 1px solid rgba(17, 30, 37, 0.08);
+            border-radius: 22px;
+            padding: 1.6rem 1.8rem;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.5rem;
+            align-items: center;
+            box-shadow: 0 16px 30px rgba(15, 26, 31, 0.08);
+        }
+
+        .achievement img {
+            width: 110px;
+            height: auto;
+            border-radius: 16px;
+            background: #fff;
+            padding: 0.5rem;
+            box-shadow: 0 10px 18px rgba(15, 26, 31, 0.12);
+        }
+
+        .achievement h3 {
+            font-family: "Fraunces", serif;
+            font-size: 1.45rem;
+            margin: 0 0 0.4rem;
+        }
+
+        .achievement p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .section {
+            padding: 3.5rem 0;
+        }
+
+        .section-title {
+            font-family: "Fraunces", serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            margin-bottom: 0.4rem;
+        }
+
+        .section-subtitle {
+            color: var(--muted);
+            max-width: 720px;
+            margin-bottom: 2rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .card-lite {
+            padding: 1.2rem 1.25rem;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #edf1f4;
+            box-shadow: 0 10px 24px rgba(15, 26, 31, 0.06);
+        }
+
+        .card-lite h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 0.45rem;
+        }
+
+        .card-lite p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .info-list li {
+            display: flex;
+            gap: 0.6rem;
+            align-items: flex-start;
+            color: var(--muted);
+        }
+
+        .info-list li::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            margin-top: 0.4rem;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .stack-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .stack-chip {
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            background: #1c2a32;
+            color: #fff;
+            font-size: 0.85rem;
+            letter-spacing: 0.01em;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 3.5rem 0 2rem;
+            }
+
+            .cta-card {
+                padding: 1.5rem;
+            }
+
+            .achievement {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="badge-row">
+                <span class="badge">SIH 2024 Finalist Product</span>
+                <span class="badge badge-soft">Smart India Hackathon</span>
+            </div>
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-6">
+                    <h1>AI-first livestock care, ready the moment you are.</h1>
+                    <p class="lead">
+                        Track animal health, predict disease risk, and connect with veterinary support
+                        in a single workspace built for farmers.
+                    </p>
+                    <ul class="hero-list">
+                        <li><span></span>Protect herds with ML-driven disease prediction.</li>
+                        <li><span></span>Keep vaccination, records, and marketplace in one hub.</li>
+                        <li><span></span>Use multilingual support and voice input on the field.</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <div class="cta-card">
+                        <h3 class="mb-2">Start with the path that fits you</h3>
+                        <p class="text-muted mb-0">Demo access signs in instantly with the preset account.</p>
+                        <div class="cta-buttons">
+                            <a class="btn btn-cta btn-outline-cta" href="/register">Sign Up</a>
+                            <a class="btn btn-cta btn-ghost-cta" href="/login">Login</a>
+                            <form action="/demo-login" method="POST">
+                                <button type="submit" class="btn btn-cta btn-primary-cta w-100">Demo</button>
+                            </form>
+                        </div>
+                        <div class="demo-note">
+                            Demo login runs automatically with: <strong>shrey31</strong> and <strong>1234</strong>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievement">
+                <img src="{{ url_for('static', filename='sih.png') }}" alt="SIH 2024 Finalist" loading="lazy">
+                <div>
+                    <h3>SIH 2024 Finalist Product</h3>
+                    <p>Recognized at Smart India Hackathon 2024 for impact in livestock health and farmer support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Core features that keep farms running</h2>
+            <p class="section-subtitle">Built for daily workflows with fast access to health, records, and operations.</p>
+            <div class="card-grid">
+                <div class="card-lite">
+                    <h4>User authentication and profiles</h4>
+                    <p>Secure logins with personalized farmer and livestock profiles.</p>
+                </div>
+                <div class="card-lite">
+                    <h4>Livestock management</h4>
+                    <p>Track herds, breeds, and ownership details in one place.</p>
+                </div>
+                <div class="card-lite">
+                    <h4>Health records tracking</h4>
+                    <p>Log diagnoses, treatments, and ongoing medical history.</p>
+                </div>
+                <div class="card-lite">
+                    <h4>Vaccination scheduling</h4>
+                    <p>Plan and monitor vaccination cycles without missed dates.</p>
+                </div>
+                <div class="card-lite">
+                    <h4>Disease prediction and reporting</h4>
+                    <p>Receive risk insights and share reports with vets.</p>
+                </div>
+                <div class="card-lite">
+                    <h4>Marketplace and discussion forum</h4>
+                    <p>List livestock and engage with the community instantly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Advanced capabilities built on AI</h2>
+            <p class="section-subtitle">Intelligent tools that reduce risk, improve care, and surface insights quickly.</p>
+            <div class="list-grid">
+                <div class="card-lite">
+                    <h4>AI-driven intelligence</h4>
+                    <ul class="info-list">
+                        <li>Machine learning powered disease prediction.</li>
+                        <li>Image analysis for animal health assessment.</li>
+                        <li>Real-time disease mapping and tracking.</li>
+                    </ul>
+                </div>
+                <div class="card-lite">
+                    <h4>Field-ready assistance</h4>
+                    <ul class="info-list">
+                        <li>Weather integration for farm management.</li>
+                        <li>Multi-language support for regional use.</li>
+                        <li>Voice input for hands-free updates.</li>
+                        <li>PDF report generation for records.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Technology stack</h2>
+            <p class="section-subtitle">A modern stack that blends web speed with reliable data and ML workflows.</p>
+            <div class="stack-grid">
+                <span class="stack-chip">Python</span>
+                <span class="stack-chip">Flask</span>
+                <span class="stack-chip">MongoDB</span>
+                <span class="stack-chip">Scikit-learn</span>
+                <span class="stack-chip">Google Gemini AI</span>
+                <span class="stack-chip">Bootstrap</span>
+                <span class="stack-chip">HTML5</span>
+                <span class="stack-chip">CSS3</span>
+                <span class="stack-chip">JavaScript</span>
+                <span class="stack-chip">Plotly</span>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

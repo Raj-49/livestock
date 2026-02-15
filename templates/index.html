@@ -148,7 +148,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark mb-4">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="{{ url_for('home') }}">
                 <i class="fas fa-stethoscope"></i> Veterinary Assistant
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -157,7 +157,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/">
+                        <a class="nav-link active" href="{{ url_for('home') }}">
                             <i class="fas fa-home"></i> Home
                         </a>
                     </li>

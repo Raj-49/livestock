@@ -235,6 +235,26 @@ def login():
         return jsonify({'success': False, 'error': 'Server error occurred'}), 500
 
 
+@app.route('/demo-login', methods=['POST'])
+def demo_login():
+    demo_username = 'shrey31'
+    demo_password = '1234'
+
+    try:
+        user = users.find_one({'username': demo_username})
+        if user and bcrypt.checkpw(demo_password.encode('utf-8'), user['password']):
+            session['user_id'] = str(user['_id'])
+            session['username'] = user['username']
+            return redirect(url_for('home'))
+
+        flash('Demo user is not available. Please contact support.', 'danger')
+        return redirect(url_for('landing_page'))
+    except Exception as e:
+        print(f"Demo login error: {str(e)}")
+        flash('Demo login failed due to a server error.', 'danger')
+        return redirect(url_for('landing_page'))
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
@@ -309,10 +329,17 @@ def register():
 @app.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('login'))
+    return redirect(url_for('landing_page'))
 
 
 @app.route('/')
+def landing_page():
+    if 'user_id' in session:
+        return redirect(url_for('home'))
+    return render_template('landing.html')
+
+
+@app.route('/home')
 @login_required
 def home():
     user = users.find_one({'_id': ObjectId(session['user_id'])})
